@@ -42,27 +42,63 @@ public class PriorityQueue
         string value = _queue[highPriorityIndex].Value;
         _queue.RemoveAt(highPriorityIndex);
         return value;
-    }
+using System;
+using System.Collections.Generic;
 
-    public override string ToString()
-    {
-        return $"[{string.Join(", ", _queue)}]";
-    }
-}
-
-internal class PriorityItem
+/// <summary>
+/// PriorityQueue manages a queue where each item has a priority.
+/// Higher priority numbers come out first. If two items have the same
+/// priority, the one added first comes out first (FIFO for same priorities).
+/// </summary>
+public class PriorityQueue
 {
-    internal string Value { get; set; }
-    internal int Priority { get; set; }
-
-    internal PriorityItem(string value, int priority)
+    private class QueueItem
     {
-        Value = value;
-        Priority = priority;
+        public string Value { get; }
+        public int Priority { get; }
+
+        public QueueItem(string value, int priority)
+        {
+            Value = value;
+            Priority = priority;
+        }
     }
 
-    public override string ToString()
+    private readonly List<QueueItem> _items = new();
+
+    /// <summary>
+    /// Adds an item with a priority to the queue.
+    /// </summary>
+    public void Enqueue(string value, int priority)
     {
-        return $"{Value} (Pri:{Priority})";
+        _items.Add(new QueueItem(value, priority));
+    }
+
+    /// <summary>
+    /// Removes and returns the value with the highest priority.
+    /// Among equal priorities, returns the earliest inserted.
+    /// </summary>
+    public string Dequeue()
+    {
+        if (_items.Count == 0)
+        {
+            throw new InvalidOperationException("Queue is empty.");
+        }
+
+        int highestPriority = int.MinValue;
+        int indexToRemove = -1;
+
+        for (int i = 0; i < _items.Count; i++)
+        {
+            if (_items[i].Priority > highestPriority)
+            {
+                highestPriority = _items[i].Priority;
+                indexToRemove = i;
+            }
+        }
+
+        var item = _items[indexToRemove];
+        _items.RemoveAt(indexToRemove);
+        return item.Value;
     }
 }

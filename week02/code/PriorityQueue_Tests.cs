@@ -21,7 +21,7 @@ public class PriorityQueueTests
     }
 
     [TestMethod]
-    // Scenario: Enqueue multiple items with same priority
+    // Scenario: Enqueue multiple items with the same priority
     // Expected Result: Items with same priority are dequeued in FIFO order
     // Defect(s) Found: None
     public void TestPriorityQueue_SamePriorityFIFO()
@@ -52,19 +52,19 @@ public class PriorityQueueTests
 
     [TestMethod]
     // Scenario: Mix of items with different and same priorities
-    // Expected Result: Highest priority comes first, ties broken by order of arrival
+    // Expected Result: Highest priority comes first; ties broken by FIFO order
     // Defect(s) Found: None
     public void TestPriorityQueue_MixedPriorities()
     {
         var pq = new PriorityQueue();
-        pq.Enqueue("X", 2);
-        pq.Enqueue("Y", 5);
-        pq.Enqueue("Z", 5);
-        pq.Enqueue("W", 3);
+        pq.Enqueue("X", 2); // Lowest
+        pq.Enqueue("Y", 5); // Same highest
+        pq.Enqueue("Z", 5); // Same highest
+        pq.Enqueue("W", 3); // Mid
 
-        Assert.AreEqual("Y", pq.Dequeue()); // Highest priority, came before Z
-        Assert.AreEqual("Z", pq.Dequeue()); // Same priority as Y, next in line
-        Assert.AreEqual("W", pq.Dequeue()); // Priority 3
-        Assert.AreEqual("X", pq.Dequeue()); // Lowest
+        Assert.AreEqual("Y", pq.Dequeue()); // Highest priority, inserted first
+        Assert.AreEqual("Z", pq.Dequeue()); // Same priority, inserted second
+        Assert.AreEqual("W", pq.Dequeue()); // Next highest
+        Assert.AreEqual("X", pq.Dequeue()); // Lowest priority
     }
 }
