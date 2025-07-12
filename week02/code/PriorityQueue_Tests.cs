@@ -17,6 +17,7 @@ public class PriorityQueueTests
 
         Assert.AreEqual("High", pq.Dequeue());
         Assert.AreEqual("Medium", pq.Dequeue());
+        
         Assert.AreEqual("Low", pq.Dequeue());
     }
 
