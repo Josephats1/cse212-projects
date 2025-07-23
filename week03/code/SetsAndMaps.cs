@@ -90,7 +90,7 @@ public static class SetsAndMaps
             
             return data?.Features?
                 .Where(f => f?.Properties != null)
-                .Select(f => $"{f.Properties.Place} - Mag {f.Properties.Mag:0.00}")
+                .Select(f => $"{f.Properties.Place} - Mag {f.Properties.Magnitude:0.00}")
                 .ToArray() ?? Array.Empty<string>();
         }
         catch (Exception ex)
@@ -98,29 +98,5 @@ public static class SetsAndMaps
             Debug.WriteLine($"Error fetching earthquake data: {ex.Message}");
             return Array.Empty<string>();
         }
-    }
-}
-
-namespace EarthquakeData
-{
-    public class FeatureCollection
-    {
-        [JsonPropertyName("features")]
-        public List<Feature> Features { get; set; }
-    }
-
-    public class Feature
-    {
-        [JsonPropertyName("properties")]
-        public Properties Properties { get; set; }
-    }
-
-    public class Properties
-    {
-        [JsonPropertyName("place")]
-        public string Place { get; set; }
-        
-        [JsonPropertyName("mag")]
-        public double Mag { get; set; }
     }
 }
